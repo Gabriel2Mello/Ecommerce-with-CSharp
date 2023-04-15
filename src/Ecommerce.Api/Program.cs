@@ -1,5 +1,7 @@
 using Ecommerce.Api.Extensions;
+using Ecommerce.Infra.Context;
 using ElmahCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddElmahCore(builder.Configuration);
 builder.Services.AddSwagger();
+builder.Services.UseSqlServer(builder.Configuration);
 
 var app = builder.Build();
 

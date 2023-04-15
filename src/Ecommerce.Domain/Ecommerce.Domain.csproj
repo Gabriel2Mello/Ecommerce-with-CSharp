@@ -4,10 +4,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<NoWarn>$(NoWarn);8618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Shared\" />
   </ItemGroup>
