@@ -3,19 +3,15 @@ using Ecommerce.Domain.Entities;
 
 namespace Ecommerce.Domain.Log
 {
-    public class LogPessoa : BaseEntity
+    public class LogPessoa : EntityBase
     {
-        private LogPessoa()
-        {
-            Guid = Guid.NewGuid();
-            DataHora = DateTime.Now;            
-        }
-
-        public LogPessoa(int idPessoa,
+        public LogPessoa(Guid guid,
+                         int idPessoa,
                          int idUsuario,
                          string acao,
-                         string campo) : this()
+                         string campo) : base(guid)
         {
+            DataHora = DateTime.Now;
             IdPessoa = idPessoa;
             IdUsuario = idUsuario;
             Acao = acao;

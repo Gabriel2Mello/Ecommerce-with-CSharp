@@ -2,19 +2,16 @@
 
 namespace Ecommerce.Domain.Entities
 {
-    public class Cliente : BaseEntity
+    public class Cliente : EntityBase
     {
-        public Cliente(int idPessoa, 
+        public Cliente(Guid guid, 
+                       int idPessoa, 
                        string numeroIdentidade, 
-                       string nome, 
-                       string razaoSocial, 
-                       string inscricaoEstadual) : base()
+                       string nome) : base(guid)
         {
             IdPessoa = idPessoa;
             NumeroIdentidade = numeroIdentidade;
             Nome = nome;
-            RazaoSocial = razaoSocial;
-            InscricaoEstadual = inscricaoEstadual;
         }
 
         public int IdPessoa { get; private set; }
@@ -22,10 +19,6 @@ namespace Ecommerce.Domain.Entities
         public string NumeroIdentidade { get; set; }
 
         public string Nome { get; set; }
-
-        public string RazaoSocial { get; set; }
-
-        public string InscricaoEstadual { get; set; }
 
         public Pessoa Pessoa { get; set; }
     }

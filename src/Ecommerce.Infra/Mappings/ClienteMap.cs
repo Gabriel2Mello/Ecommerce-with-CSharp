@@ -26,29 +26,16 @@ namespace Ecommerce.Infra.Mappings
                 .IsRequired();
 
             builder.Property(p => p.NumeroIdentidade)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("NumeroIdentidade")
                 .HasMaxLength(18)
                 .IsRequired();
 
             builder.Property(p => p.Nome)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Nome")
                 .HasMaxLength(255)
                 .IsRequired();
-
-            builder.Property(p => p.RazaoSocial)
-                .HasColumnType("nvarchar")
-                .HasColumnName("RazaoSocial")
-                .HasMaxLength(255);
-
-            builder.Property(p => p.InscricaoEstadual)
-                .HasColumnType("nvarchar")
-                .HasColumnName("InscricaoEstadual")
-                .HasMaxLength(9);
-
-            builder.HasOne(p => p.Pessoa)
-                .WithOne();
 
             builder.HasIndex(p => p.Id)
                 .HasDatabaseName("IX_Cliente_Id");          

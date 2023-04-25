@@ -1,16 +1,20 @@
+--Database
+USE [Ecommerce]
+GO
+
 --Create Table
 CREATE TABLE [dbo].[Endereco]
 ([Guid] [uniqueidentifier] NOT NULL,
  [Id] [int] IDENTITY(1,1) NOT NULL,
  [IdPessoa] [int] NOT NULL,
- [Endereco] [nvarchar](160) NOT NULL,
- [Numero] [nvarchar](20),
- [Complemento] [nvarchar](160),
- [Bairro] [nvarchar](64),
- [CEP] [nvarchar](9),
- [Cidade] [nvarchar](64),
+ [Endereco] [varchar](160) NOT NULL,
+ [Numero] [varchar](20),
+ [Complemento] [varchar](160),
+ [Bairro] [varchar](64),
+ [CEP] [varchar](9),
+ [Cidade] [varchar](64),
  [UF] [char](2),
- [Tipo] [nvarchar](40) NOT NULL
+ [Tipo] [varchar](40) NOT NULL
 ) ON [PRIMARY]
 GO
 

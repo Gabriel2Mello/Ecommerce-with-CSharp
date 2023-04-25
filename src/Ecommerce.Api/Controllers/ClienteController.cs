@@ -1,22 +1,15 @@
-﻿using Ecommerce.Infra.Context;
+﻿using Ecommerce.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.Api.Controllers
 {
     public class ClienteController : ControllerBase
     {
-        readonly EcommerceContext _context;
+        private readonly IClienteRepository _clienteRepository;
 
-        public ClienteController()
+        public ClienteController(IClienteRepository clienteRepository)
         {
-            var alala = _context.Clientes.FirstOrDefault();
-        }
-
-        [HttpGet("Get")]
-        public ActionResult Get()
-        {
-            var tasldjas = _context.Clientes.FirstOrDefault();
-            return Ok();
+            _clienteRepository = clienteRepository;
         }
     }
 }

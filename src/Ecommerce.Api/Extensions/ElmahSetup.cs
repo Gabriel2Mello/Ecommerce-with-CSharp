@@ -9,7 +9,7 @@ namespace Ecommerce.Api.Extensions
         {
             services.AddElmah<SqlErrorLog>(options =>
             {
-                options.ConnectionString = configuration.GetSection($"ConnectionStrings:Ecommerce").Value;
+                options.ConnectionString = configuration.GetConnectionString("Ecommerce");
                 options.Path = "/elmah";
             });
         }

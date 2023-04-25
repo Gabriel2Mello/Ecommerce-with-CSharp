@@ -2,18 +2,20 @@
 
 namespace Ecommerce.Domain.Entities
 {
-    public class Pessoa : BaseEntity
+    public class Pessoa : EntityBase
     {
-        public Pessoa(string celular, 
+        public Pessoa(Guid guid,
+                      string celular, 
                       string email, 
                       string senha, 
-                      string tipo) : base()
+                      string tipo) : base(guid)
         {
             Celular = celular;
             Email = email;
             Senha = senha;
             Tipo = tipo;
         }
+
 
         public string Celular { get; set; }
 

@@ -1,14 +1,14 @@
 ﻿namespace Ecommerce.Domain.Base
 {
-    public class BaseEntity
+    public abstract class EntityBase
     {
-        public BaseEntity()
-        {
-            Guid = Guid.NewGuid();
-        }
-
         public Guid Guid { get; init; }
 
         public int Id { get; }
+
+        protected EntityBase(Guid guid)
+        {
+            Guid = guid;
+        }
     }
 }

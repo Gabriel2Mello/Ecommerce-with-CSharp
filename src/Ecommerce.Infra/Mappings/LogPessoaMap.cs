@@ -33,12 +33,12 @@ namespace Ecommerce.Infra.Mappings
                 .IsRequired();
 
             builder.Property(p => p.Acao)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Acao")
                 .HasMaxLength(128);
 
             builder.Property(p => p.Campo)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Campo")
                 .HasMaxLength(64);
 

@@ -17,12 +17,12 @@ namespace Ecommerce.Infra.Mappings
                 .IsRequired();
 
             builder.Property(p => p.Celular)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Celular")
                 .HasMaxLength(14);
 
             builder.Property(p => p.Email)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Email")
                 .HasMaxLength(64);
 
@@ -33,7 +33,7 @@ namespace Ecommerce.Infra.Mappings
                 .IsRequired();
 
             builder.Property(p => p.Tipo)
-                .HasColumnType("nvarchar")
+                .HasColumnType("varchar")
                 .HasColumnName("Tipo")
                 .HasMaxLength(40)
                 .IsRequired();

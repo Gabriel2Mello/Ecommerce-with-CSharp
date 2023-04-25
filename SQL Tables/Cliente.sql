@@ -1,12 +1,14 @@
+--Database
+USE [Ecommerce]
+GO
+
 --Create Table
 CREATE TABLE [dbo].[Cliente]
 ([Guid] [uniqueidentifier] NOT NULL,
  [Id] [int] IDENTITY(1,1) NOT NULL,
  [IdPessoa] [int] NOT NULL,
- [NumeroIdentidade] [nvarchar](18) NOT NULL,
- [Nome] [nvarchar](255) NOT NULL,
- [RazaoSocial] [nvarchar](255),
- [InscricaoEstadual] [nvarchar](9),
+ [NumeroIdentidade] [varchar](18) NOT NULL,
+ [Nome] [varchar](255) NOT NULL 
 ) ON [PRIMARY]
 GO
 

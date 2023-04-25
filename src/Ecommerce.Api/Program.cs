@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddElmahCore(builder.Configuration);
 builder.Services.AddSwagger();
 builder.Services.UseSqlServer(builder.Configuration);
+builder.Services.AddRepositories();
 
 var app = builder.Build();
 

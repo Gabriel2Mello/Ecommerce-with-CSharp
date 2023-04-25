@@ -1,11 +1,15 @@
+--Database
+USE [Ecommerce]
+GO
+
 --Create Table
 CREATE TABLE [dbo].[LogPessoa]
 ([Guid] [uniqueidentifier] NOT NULL,
  [Id] [int] IDENTITY(1,1) NOT NULL,
  [IdPessoa] [int] NOT NULL,
  [IdUsuario] [int],
- [Acao] [nvarchar](128),
- [Campo] [nvarchar](64),
+ [Acao] [varchar](128),
+ [Campo] [varchar](64),
  [DataHora] [datetime] NOT NULL,
 ) ON [PRIMARY]
 GO
