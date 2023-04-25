@@ -11,7 +11,7 @@ namespace Ecommerce.Domain.Log
                          string acao,
                          string campo) : base(guid)
         {
-            DataHora = DateTime.Now;
+            DataCadastro = DateTime.Now;
             IdPessoa = idPessoa;
             IdUsuario = idUsuario;
             Acao = acao;
@@ -26,7 +26,9 @@ namespace Ecommerce.Domain.Log
 
         public string Campo { get; set; }
 
-        public DateTime DataHora { get; private set; }
+        public DateTime DataAlteracao { get; private set; }
+
+        public DateTime DataCadastro { get; private set; }
 
         public Pessoa Pessoa { get; set; }
     }

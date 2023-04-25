@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Base;
 using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Shared;
 using Ecommerce.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -17,26 +18,26 @@ namespace Ecommerce.Infra.Base
             _ecommerceContext = ecommerceContext;
         }
 
-        public async Task DeleteAsync(TEntity entity)
+        public async Task<int> DeleteAsync(TEntity entity)
         {
             _dbSet.Remove(entity);
-            await _ecommerceContext.SaveChangesAsync();
+            return await _ecommerceContext.SaveChangesAsync();
         }
 
-        public async Task DeleteByIdAsync(Guid guid)
+        public async Task<int> DeleteByIdAsync(Guid guid)
         {
             TEntity entity = await GetByIdAsync(guid);
 
             _dbSet.Remove(entity);
-            await _ecommerceContext.SaveChangesAsync();
+            return await _ecommerceContext.SaveChangesAsync();
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task<int> DeleteByIdAsync(int id)
         {
             TEntity entity = await GetByIdAsync(id);
 
             _dbSet.Remove(entity);
-            await _ecommerceContext.SaveChangesAsync();
+            return await _ecommerceContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter = null)
@@ -52,7 +53,7 @@ namespace Ecommerce.Infra.Base
 
         public async Task<TEntity> GetByIdAsync(Guid guid)
         {          
-            return await _dbSet.FirstAsync(p => p.Guid.Equals(guid));
+            return await _dbSet.FirstOrDefaultAsync(p => p.Guid.Equals(guid));
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
@@ -60,16 +61,26 @@ namespace Ecommerce.Infra.Base
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task UpdateAsync(TEntity entity)
+        public async Task<ReturnChanges<TEntity>> UpdateAsync(TEntity entity)
         {
             _dbSet.Update(entity);
-            await _ecommerceContext.SaveChangesAsync();
+            return await SaveChangesAsync(entity);
         }
 
-        public async Task AddAsync(TEntity entity)
+        public async Task<ReturnChanges<TEntity>> AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
-            await _ecommerceContext.SaveChangesAsync();
+            return await SaveChangesAsync(entity);
+        }
+
+        private async Task<ReturnChanges<T>> SaveChangesAsync<T>(T entity) where T : TEntity
+        {
+            int changes = await _ecommerceContext.SaveChangesAsync();
+
+            if (entity.IdIsNull || entity.GuidIsNull)
+                throw new Exception("Database Malfunction");
+
+            return new(entity, changes);
         }
     }
 }

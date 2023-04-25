@@ -10,7 +10,8 @@ CREATE TABLE [dbo].[LogPessoa]
  [IdUsuario] [int],
  [Acao] [varchar](128),
  [Campo] [varchar](64),
- [DataHora] [datetime] NOT NULL,
+ [DataAlteracao] [datetime] NOT NULL,
+ [DataCadastro] [datetime] NOT NULL
 ) ON [PRIMARY]
 GO
 

@@ -1,4 +1,6 @@
-﻿using Ecommerce.Domain.Interfaces;
+﻿using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Services;
+using Ecommerce.Domain.Interfaces;
 using Ecommerce.Infra.Base;
 using Ecommerce.Infra.Context;
 using Ecommerce.Infra.Repositories;
@@ -19,6 +21,13 @@ namespace Ecommerce.Api.Extensions
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddServices(this IServiceCollection services)
+        {
+            services.AddScoped<IPessoaService, PessoaService>();
 
             return services;
         }

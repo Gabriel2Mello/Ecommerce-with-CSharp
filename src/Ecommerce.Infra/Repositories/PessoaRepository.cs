@@ -6,21 +6,23 @@ namespace Ecommerce.Infra.Repositories
 {
     public class PessoaRepository : IPessoaRepository
     {
-        private readonly IRepositoryBase<Pessoa> _repositoryBase;
+        private readonly IRepositoryBase<Pessoa> _repositoryBase;        
 
         public PessoaRepository(IRepositoryBase<Pessoa> repositoryBase)
         {
-            _repositoryBase = repositoryBase;
+            _repositoryBase = repositoryBase;            
         }
 
-        public async Task AddAsync(Pessoa entity)
+        public async Task<Pessoa> AddAsync(Pessoa entity)
         {
-            await _repositoryBase.AddAsync(entity);
+            var result = await _repositoryBase.AddAsync(entity);
+            return result.Entity;
         }
 
-        public async Task UpdateAsync(Pessoa entity) 
+        public async Task<Pessoa> UpdateAsync(Pessoa entity) 
         {
             await _repositoryBase.UpdateAsync(entity);
+            return entity;
         }
 
         public async Task<IEnumerable<Pessoa>> GetAsync(Expression<Func<Pessoa, bool>> filter = null)

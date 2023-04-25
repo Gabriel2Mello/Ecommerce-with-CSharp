@@ -1,12 +1,6 @@
 ﻿using Ecommerce.Domain.Log;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ecommerce.Infra.Mappings
 {
@@ -42,9 +36,14 @@ namespace Ecommerce.Infra.Mappings
                 .HasColumnName("Campo")
                 .HasMaxLength(64);
 
-            builder.Property(p => p.DataHora)
+            builder.Property(p => p.DataAlteracao)
                 .HasColumnType("datetime")
-                .HasColumnName("DataHora")
+                .HasColumnName("DataAlteracao")
+                .IsRequired();
+
+            builder.Property(p => p.DataCadastro)
+                .HasColumnType("datetime")
+                .HasColumnName("DataCadastro")
                 .IsRequired();
             
             builder.HasOne(p => p.Pessoa)
