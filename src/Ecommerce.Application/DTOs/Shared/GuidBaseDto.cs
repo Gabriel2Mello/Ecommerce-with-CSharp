@@ -9,6 +9,13 @@ namespace Ecommerce.Application.DTOs.Shared
         public Guid Guid { get; set; }
 
         [NotMapped, JsonIgnore]
-        public bool GuidIsNull { get => GuidUtility.IsNull(Guid); }
+        public bool GuidIsNull { get => Guid == Guid.Empty; }
+
+        protected GuidBaseDto(Guid guid)
+        {
+            Guid = guid;
+        }
+
+        protected GuidBaseDto() { }
     }
 }

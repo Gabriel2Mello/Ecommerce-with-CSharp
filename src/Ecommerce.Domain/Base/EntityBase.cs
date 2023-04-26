@@ -1,5 +1,4 @@
-﻿using Ecommerce.Domain.Utility;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Ecommerce.Domain.Base
@@ -14,7 +13,7 @@ namespace Ecommerce.Domain.Base
         public bool IdIsNull { get => Id <= 0; }
 
         [NotMapped, JsonIgnore]
-        public bool GuidIsNull { get => GuidUtility.IsNull(Guid); }
+        public bool GuidIsNull { get => Guid == Guid.Empty; }
 
         protected EntityBase(Guid guid)
         {

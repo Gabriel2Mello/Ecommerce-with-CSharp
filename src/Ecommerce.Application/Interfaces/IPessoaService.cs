@@ -11,6 +11,6 @@ namespace Ecommerce.Application.Interfaces
 
         Task<GetPessoaResponseDto> GetByIdAsync(Guid guid);
 
-        Task<PutPessoaResponseDto> UpdateAsync(PutPessoaRequestDto requestDto);
+        Task<UpdatePessoaResponseDto> UpdateAsync(UpdatePessoaRequestDto requestDto);
     }
 }

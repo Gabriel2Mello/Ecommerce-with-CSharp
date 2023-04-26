@@ -1,4 +1,5 @@
 ﻿using Ecommerce.Domain.Entities;
+using Ecommerce.Domain.Shared;
 
 namespace Ecommerce.Domain.Interfaces
 {
@@ -10,6 +11,6 @@ namespace Ecommerce.Domain.Interfaces
 
         Task<Pessoa> GetByIdAsync(int id);
 
-        Task<Pessoa> UpdateAsync(Pessoa entity);
+        Task<ReturnChanges<Pessoa>> UpdateAsync(Pessoa entity);
     }
 }

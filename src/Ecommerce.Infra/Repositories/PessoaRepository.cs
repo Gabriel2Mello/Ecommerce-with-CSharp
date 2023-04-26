@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Shared;
 using System.Linq.Expressions;
 
 namespace Ecommerce.Infra.Repositories
@@ -19,10 +20,9 @@ namespace Ecommerce.Infra.Repositories
             return result.Entity;
         }
 
-        public async Task<Pessoa> UpdateAsync(Pessoa entity) 
+        public async Task<ReturnChanges<Pessoa>> UpdateAsync(Pessoa entity) 
         {
-            await _repositoryBase.UpdateAsync(entity);
-            return entity;
+            return await _repositoryBase.UpdateAsync(entity);             
         }
 
         public async Task<IEnumerable<Pessoa>> GetAsync(Expression<Func<Pessoa, bool>> filter = null)

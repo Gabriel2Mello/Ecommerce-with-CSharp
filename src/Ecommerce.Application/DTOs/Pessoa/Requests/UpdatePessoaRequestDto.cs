@@ -1,20 +1,22 @@
-﻿using Ecommerce.Domain.Shared.Enums;
+﻿using Ecommerce.Application.DTOs.Shared;
+using Ecommerce.Domain.Shared.Enums;
 
 namespace Ecommerce.Application.DTOs.Pessoa.Requests
 {
-    public struct AddPessoaRequestDto
-    {
+    public record UpdatePessoaRequestDto : GuidBaseDto
+    {        
         public string Celular { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
         public EPessoa Tipo { get; set; }
 
-        public AddPessoaRequestDto() { }
+        public UpdatePessoaRequestDto() { }
 
-        public AddPessoaRequestDto(string celular,
+        public UpdatePessoaRequestDto(Guid guid,
+                                   string celular,
                                    string email,
                                    string senha,
-                                   EPessoa tipo)
+                                   EPessoa tipo) : base(guid)
         {
             Celular = celular;
             Email = email;

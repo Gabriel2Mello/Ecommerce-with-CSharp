@@ -28,6 +28,7 @@ namespace Ecommerce.Api.Extensions
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddScoped<IPessoaService, PessoaService>();
+            services.AddScoped<IClienteService, ClienteService>();
 
             return services;
         }

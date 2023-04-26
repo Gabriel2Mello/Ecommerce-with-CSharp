@@ -3,6 +3,8 @@ using Ecommerce.Application.DTOs.Pessoa.Responses;
 using Ecommerce.Application.Interfaces;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
+using Ecommerce.Domain.Shared;
+using Ecommerce.Domain.Utility;
 
 namespace Ecommerce.Application.Services
 {
@@ -16,61 +18,61 @@ namespace Ecommerce.Application.Services
         }
 
         public async Task<AddPessoaResponseDto> AddAsync(AddPessoaRequestDto requestDto)
-        {
-            Pessoa pessoa = Pessoa.CreateObject(guid: Guid.NewGuid(),
-                                                celular: requestDto.Celular,
-                                                email: requestDto.Email,
-                                                senha: requestDto.Senha,
-                                                tipo: requestDto.Tipo);
+        {            
+            Pessoa pessoa = await _pessoaRepository.AddAsync(
+                Pessoa.CreateObject(guid: Guid.NewGuid(),
+                                    celular: requestDto.Celular,
+                                    email: requestDto.Email,
+                                    senha: requestDto.Senha,
+                                    tipo: requestDto.Tipo));
 
-            await _pessoaRepository.AddAsync(pessoa);                
-
-            AddPessoaResponseDto responseDto = new() 
-            {
-                Guid = pessoa.Guid,
-                Celular = pessoa.Celular,
-                Email = pessoa.Email,
-                Tipo = pessoa.Tipo
-            };
+            AddPessoaResponseDto responseDto = new(guid: pessoa.Guid,
+                                                   celular:pessoa.Celular,
+                                                   email: pessoa.Email,
+                                                   tipo: pessoa.Tipo);
 
             return responseDto;
         }
 
         public async Task<GetPessoaResponseDto> GetByIdAsync(Guid guid)
         {
-            Pessoa pessoa = await _pessoaRepository.GetByIdAsync(guid);
-
             GetPessoaResponseDto responseDto = new();
-            if (pessoa == null)
-                return responseDto;
-            
-            responseDto.Guid = pessoa.Guid;
-            responseDto.Celular = pessoa.Celular;
-            responseDto.Email = pessoa.Email;
-            responseDto.Tipo = pessoa.Tipo;            
+
+            if (GuidUtility.IsNull(guid)) return responseDto;
+
+            Pessoa pessoa = await _pessoaRepository.GetByIdAsync(guid);            
+
+            if (pessoa == null) return responseDto;
+
+            responseDto.FillObject(guid: pessoa.Guid,
+                                   celular: pessoa.Celular,
+                                   email: pessoa.Email,
+                                   tipo: pessoa.Tipo);
 
             return responseDto;
         }
 
-        public async Task<PutPessoaResponseDto> UpdateAsync(PutPessoaRequestDto requestDto)
-        {            
-            Pessoa pessoa = await _pessoaRepository.GetByIdAsync(requestDto.Guid);
+        public async Task<UpdatePessoaResponseDto> UpdateAsync(UpdatePessoaRequestDto requestDto)
+        {
+            UpdatePessoaResponseDto responseDto = new();
 
-            PutPessoaResponseDto responseDto = new();
-            if (pessoa == null)
-                return responseDto;
+            if (requestDto.GuidIsNull) return responseDto;
 
-            pessoa.ChangeObject(requestDto.Celular,
-                                requestDto.Email,
-                                requestDto.Senha,
-                                requestDto.Tipo.ToString());
+            Pessoa pessoa = await _pessoaRepository.GetByIdAsync(requestDto.Guid);            
+            
+            if (pessoa == null) return responseDto;
 
-            await _pessoaRepository.UpdateAsync(pessoa);
+            pessoa.ChangeObject(celular: requestDto.Celular,
+                                email: requestDto.Email,
+                                senha: requestDto.Senha,
+                                tipo: requestDto.Tipo.ToString());
 
-            responseDto.Guid = pessoa.Guid;
-            responseDto.Celular = pessoa.Celular;
-            responseDto.Email = pessoa.Email;
-            responseDto.Tipo= pessoa.Tipo;
+            if (_pessoaRepository.UpdateAsync(pessoa).Result.Changes == 0) return responseDto;
+
+            responseDto.FillObject(guid: pessoa.Guid,
+                                   celular: pessoa.Celular,
+                                   email: pessoa.Email,
+                                   tipo: pessoa.Tipo);            
 
             return responseDto;
         }

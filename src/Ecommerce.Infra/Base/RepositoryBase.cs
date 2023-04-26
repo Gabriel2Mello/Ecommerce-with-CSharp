@@ -53,12 +53,16 @@ namespace Ecommerce.Infra.Base
 
         public async Task<TEntity> GetByIdAsync(Guid guid)
         {          
-            return await _dbSet.FirstOrDefaultAsync(p => p.Guid.Equals(guid));
+            return await _dbSet.AsNoTracking()
+                               .FirstOrDefaultAsync(p => p.Guid.Equals(guid));
         }
 
         public async Task<TEntity> GetByIdAsync(int id)
         {
-            return await _dbSet.FindAsync(id);
+            TEntity entity = await _dbSet.FindAsync(id);
+            _dbSet.Entry(entity).State = EntityState.Detached;
+
+            return entity;
         }
 
         public async Task<ReturnChanges<TEntity>> UpdateAsync(TEntity entity)
