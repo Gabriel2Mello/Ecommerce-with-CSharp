@@ -2,7 +2,6 @@
 using Ecommerce.Application.DTOs.Pessoa.Requests;
 using Ecommerce.Application.DTOs.Pessoa.Responses;
 using Ecommerce.Application.Interfaces;
-using Ecommerce.Domain.Shared.Enums;
 using Ecommerce.Domain.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -32,10 +31,10 @@ namespace Ecommerce.Api.Controllers
         [SwaggerResponse(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<AddPessoaResponseDto>> AddPessoa(AddPessoaRequestDto requestDto)
         {
-            requestDto.Celular = "99999999";
-            requestDto.Email = "email@email.com";
-            requestDto.Senha = "abcde";
-            requestDto.Tipo = EPessoa.Fisica;            
+            //requestDto.Celular = "99999999";
+            //requestDto.Email = "email@email.com";
+            //requestDto.Senha = "abcde";
+            //requestDto.Tipo = EPessoa.Fisica;            
 
             AddPessoaResponseDto responseDto = await _pessoaService.AddAsync(requestDto);
 

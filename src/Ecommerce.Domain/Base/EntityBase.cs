@@ -7,7 +7,7 @@ namespace Ecommerce.Domain.Base
     {
         public Guid Guid { get; init; }
 
-        public int Id { get; }
+        public int Id { get; protected set; }
 
         [NotMapped, JsonIgnore]
         public bool IdIsNull { get => Id <= 0; }

@@ -17,6 +17,7 @@ namespace Ecommerce.Infra.Mappings
                 .IsRequired();
 
             builder.Property(p => p.IdPessoa)
+                .HasColumnName("IdPessoa")
                 .HasColumnType("int")
                 .IsRequired();
 
@@ -32,8 +33,13 @@ namespace Ecommerce.Infra.Mappings
                 .HasMaxLength(255)
                 .IsRequired();
 
+            builder.HasOne(p => p.Pessoa)
+                .WithOne(p => p.Cliente)
+                .HasForeignKey<Cliente>(e => e.IdPessoa)
+                .IsRequired();
+
             builder.HasIndex(p => p.Id)
-                .HasDatabaseName("IX_Cliente_Id");          
+                .HasDatabaseName("IX_Cliente_Id");
         }
     }
 }

@@ -80,19 +80,19 @@ namespace Ecommerce.Api.Controllers
         }
 
         /// <summary>
-        /// Delete a Cliente
+        /// Delete a Cliente by Guid
         /// </summary>
-        /// <param name="requestDto"></param>
+        /// <param name="guid"></param>
         /// <returns>Return 204 status code if success</returns>
-        [HttpDelete]
+        [HttpDelete("{guid}")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status304NotModified)]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteCliente(DeleteClienteRequestDto requestDto)
+        public async Task<IActionResult> DeleteCliente(Guid guid)
         {
-            if (requestDto.GuidIsNull) return NotFound();
+            if (GuidUtility.IsNull(guid)) return NotFound();
 
-            int changes = await _clienteService.DeleteAsync(requestDto);
+            int changes = await _clienteService.DeleteAsync(guid);
 
             if (changes == 0)
                 return StatusCode(StatusCodes.Status304NotModified);

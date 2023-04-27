@@ -11,7 +11,7 @@ namespace Ecommerce.Application.Interfaces
 
         Task<GetClienteResponseDto> GetByIdAsync(Guid guid);
 
-        Task<int> DeleteAsync(DeleteClienteRequestDto requestDto);
+        Task<int> DeleteAsync(Guid guid);
 
         Task<UpdateClienteResponseDto> UpdateAsync(UpdateClienteRequestDto requestDto);
 

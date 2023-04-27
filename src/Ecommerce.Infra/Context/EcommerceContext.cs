@@ -1,6 +1,7 @@
 ﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Log;
 using Ecommerce.Infra.Mappings;
+using Ecommerce.Infra.Mappings.Log;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Infra.Context
@@ -13,11 +14,11 @@ namespace Ecommerce.Infra.Context
         {
             modelBuilder.ApplyConfiguration(new ClienteMap());
             modelBuilder.ApplyConfiguration(new PessoaMap());
-            modelBuilder.ApplyConfiguration(new LogPessoaMap());
+            modelBuilder.ApplyConfiguration(new PessoaLogMap());
         }
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Pessoa> Pessoas { get; set; }
-        public DbSet<LogPessoa> LogPessoas { get; set; }
+        public DbSet<PessoaLog> PessoaLogs { get; set; }
     }
 }

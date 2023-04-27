@@ -32,6 +32,10 @@ namespace Ecommerce.Application.Services
 
             if (pessoa == null) return responseDto;
 
+            var existingCliente = await _clienteRepository.GetAsync(p => p.IdPessoa == pessoa.Id);
+            if (existingCliente.Any())
+                return ReturnAddClienteResponseDto(existingCliente.First());
+
             Cliente cliente = Cliente.CreateObject(guid: Guid.NewGuid(),
                                                    idPessoa: pessoa.Id,
                                                    numeroIdentidade: requestDto.NumeroIdentidade,
@@ -39,18 +43,21 @@ namespace Ecommerce.Application.Services
 
             await _clienteRepository.AddAsync(cliente);
 
-            responseDto.FillObject(guid: cliente.Guid,
-                                   numeroIdentidade: cliente.NumeroIdentidade,
-                                   nome: cliente.Nome);            
-            
-            return responseDto;
+            return ReturnAddClienteResponseDto(cliente);
         }
 
-        public async Task<int> DeleteAsync(DeleteClienteRequestDto requestDto)
+        private static AddClienteResponseDto ReturnAddClienteResponseDto(Cliente cliente)
         {
-            if (requestDto.GuidIsNull) return 0;
+            return new(guid: cliente.Guid,
+                       numeroIdentidade: cliente.NumeroIdentidade,
+                       nome: cliente.Nome);
+        }
 
-            Cliente cliente = await _clienteRepository.GetByIdAsync(requestDto.Guid);
+        public async Task<int> DeleteAsync(Guid guid)
+        {
+            if (GuidUtility.IsNull(guid)) return 0;
+
+            Cliente cliente = await _clienteRepository.GetByIdAsync(guid);
 
             if (cliente == null) return 0;
 
@@ -84,6 +91,8 @@ namespace Ecommerce.Application.Services
             Cliente cliente = await _clienteRepository.GetByIdAsync(guid);
 
             if (cliente == null) return responseDto;
+
+            cliente.Pessoa = await _pessoaRepository.GetByIdAsync(cliente.IdPessoa);
 
             responseDto.FillObject(guid: cliente.Guid,
                                    guidPessoa: cliente.Pessoa.Guid,

@@ -4,7 +4,7 @@ using Ecommerce.Domain.Shared.Enums;
 namespace Ecommerce.Domain.Entities
 {
     public class Pessoa : EntityBase
-    {
+    {        
         private Pessoa(Guid guid,
                       string celular, 
                       string email, 
@@ -25,6 +25,8 @@ namespace Ecommerce.Domain.Entities
 
         public string Tipo { get; private set; }
 
+        public Cliente Cliente { get; set; }
+
         public void ChangeObject(string celular,
                                  string email,
                                  string senha,
@@ -43,6 +45,15 @@ namespace Ecommerce.Domain.Entities
                                           EPessoa tipo)
         {
             return new Pessoa(guid, celular, email, senha, tipo.ToString());
+        }
+
+        public Pessoa(Pessoa pessoa) : base(pessoa.Guid)
+        {            
+            Id = pessoa.Id;
+            Celular = pessoa.Celular;
+            Email = pessoa.Email;
+            Senha = pessoa.Senha;
+            Tipo = pessoa.Tipo;
         }
     }
 }

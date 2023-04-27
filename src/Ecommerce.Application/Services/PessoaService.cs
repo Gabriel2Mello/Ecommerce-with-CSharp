@@ -1,9 +1,9 @@
 ﻿using Ecommerce.Application.DTOs.Pessoa.Requests;
 using Ecommerce.Application.DTOs.Pessoa.Responses;
 using Ecommerce.Application.Interfaces;
+using Ecommerce.Application.Services.Log;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Interfaces;
-using Ecommerce.Domain.Shared;
 using Ecommerce.Domain.Utility;
 
 namespace Ecommerce.Application.Services
@@ -11,10 +11,14 @@ namespace Ecommerce.Application.Services
     public class PessoaService : IPessoaService
     {
         private readonly IPessoaRepository _pessoaRepository;
+        private readonly PessoaLogService _pessoaLogService;
 
-        public PessoaService(IPessoaRepository pessoaRepository)
+        public PessoaService(
+            IPessoaRepository pessoaRepository, 
+            PessoaLogService pessoaLogService)
         {
             _pessoaRepository = pessoaRepository;
+            _pessoaLogService = pessoaLogService;
         }
 
         public async Task<AddPessoaResponseDto> AddAsync(AddPessoaRequestDto requestDto)
@@ -62,12 +66,16 @@ namespace Ecommerce.Application.Services
             
             if (pessoa == null) return responseDto;
 
+            _pessoaLogService.AddObject(pessoa);
+
             pessoa.ChangeObject(celular: requestDto.Celular,
                                 email: requestDto.Email,
                                 senha: requestDto.Senha,
                                 tipo: requestDto.Tipo.ToString());
 
             if (_pessoaRepository.UpdateAsync(pessoa).Result.Changes == 0) return responseDto;
+
+            _pessoaLogService.MakeLog();
 
             responseDto.FillObject(guid: pessoa.Guid,
                                    celular: pessoa.Celular,

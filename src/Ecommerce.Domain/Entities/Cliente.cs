@@ -20,7 +20,7 @@ namespace Ecommerce.Domain.Entities
 
         public string Nome { get; private set; }
 
-        public Pessoa Pessoa { get; private set; }
+        public Pessoa Pessoa { get; set; }
 
         public void ChangeObject(string numeroIdentidade,
                                  string nome)
