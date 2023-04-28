@@ -11,8 +11,7 @@ CREATE TABLE [dbo].[PessoaLog]
  [IdUsuario] [int],
  [Acao] [varchar](128),
  [Campo] [varchar](64),
- [DataAlteracao] [datetime] NOT NULL,
- [DataCadastro] [datetime] NOT NULL
+ [DataAlteracao] [datetime] NOT NULL 
 ) ON [PRIMARY]
 GO
 

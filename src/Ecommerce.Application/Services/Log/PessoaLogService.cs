@@ -1,21 +1,16 @@
-﻿using Ecommerce.Domain.Base;
-using Ecommerce.Domain.Entities;
+﻿using Ecommerce.Domain.Entities;
 using Ecommerce.Domain.Log;
+using Ecommerce.Domain.Shared.Enums;
+using Ecommerce.Domain.Utility;
 using Ecommerce.Infra.Repositories.Log;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ecommerce.Application.Services.Log
 {
     public class PessoaLogService
     {
         private readonly PessoaLogRepository _repository;
-        private Pessoa? _beforePessoa = null;
-        private Pessoa? _pessoa = null;
+        private Pessoa? _entityBefore = null;
+        private Pessoa? _entityUpdated = null;
 
         public PessoaLogService(PessoaLogRepository repository)
         {
@@ -24,34 +19,40 @@ namespace Ecommerce.Application.Services.Log
 
         public void AddObject(Pessoa pessoa) 
         {
-            _pessoa = pessoa ?? throw new ArgumentNullException(nameof(pessoa), "Can't make log if parameter is null");
-            _beforePessoa = new(pessoa); 
+            LogUtility.EntityIsNull(pessoa);
+
+            _entityUpdated = pessoa;
+            _entityBefore = new(pessoa);
         }
 
-        public async void MakeLog()
+        public async void MakeCreateLog(Pessoa pessoa)
         {
-            Type type = typeof(Pessoa);
-            PropertyInfo[] properties = type.GetProperties();
+            LogUtility.EntityIsNull(pessoa);
 
-            List<string> propertyNames = new();
-            foreach (PropertyInfo property in properties)
-            {                                
-                object oldValue = property.GetValue(_beforePessoa, null)!;
-                object newValue = property.GetValue(_pessoa, null)!;
+            await _repository.AddAsync(
+                PessoaLog.CreateObject(
+                    guidPessoa: pessoa.Guid,
+                    idPessoa: pessoa.Id,
+                    idUsuario: 1,
+                    acao: ELog.Create.ToString())
+                ); 
+        }
 
-                if (property.PropertyType.IsSubclassOf(typeof(EntityBase)))
-                    continue;
+        public async void MakeUpdateLog()
+        {
+            LogUtility.EntityIsNull(_entityBefore, _entityUpdated);
 
-                if(!oldValue.Equals(newValue))
-                    propertyNames.Add(property.Name);
-            }
+            (List<string> propertyNames, bool hasAny) = LogUtility.GetUpdateChanges(_entityBefore!, _entityUpdated!);
+            if (!hasAny) return;
 
-            if (propertyNames.Any())
-            {
-                var log = PessoaLog.CreateObject(_pessoa!.Guid, _pessoa.Id, 1, "Update", string.Join(", ", propertyNames));
-
-                await _repository.AddAsync(log);
-            }            
+            await _repository.AddAsync(
+                PessoaLog.CreateObject(
+                    guidPessoa: _entityUpdated!.Guid,
+                    idPessoa: _entityUpdated.Id,
+                    idUsuario: 1,
+                    acao: ELog.Update.ToString(),
+                    campo: string.Join(", ", propertyNames))
+                );
         }
     }
 }

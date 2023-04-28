@@ -22,5 +22,10 @@ namespace Ecommerce.Domain.Base
 
             Guid = guid;
         }
+
+        protected EntityBase(EntityBase entity) : this(entity.Guid) 
+        { 
+            Id = entity.Id;
+        }
     }
 }

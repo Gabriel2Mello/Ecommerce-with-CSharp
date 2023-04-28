@@ -48,7 +48,7 @@ namespace Ecommerce.Domain.Entities
         }
 
         public Pessoa(Pessoa pessoa) : base(pessoa.Guid)
-        {            
+        {
             Id = pessoa.Id;
             Celular = pessoa.Celular;
             Email = pessoa.Email;

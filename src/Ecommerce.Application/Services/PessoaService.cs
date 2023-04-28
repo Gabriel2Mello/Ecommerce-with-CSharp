@@ -11,14 +11,14 @@ namespace Ecommerce.Application.Services
     public class PessoaService : IPessoaService
     {
         private readonly IPessoaRepository _pessoaRepository;
-        private readonly PessoaLogService _pessoaLogService;
+        private readonly PessoaLogService _logService;
 
         public PessoaService(
             IPessoaRepository pessoaRepository, 
             PessoaLogService pessoaLogService)
         {
             _pessoaRepository = pessoaRepository;
-            _pessoaLogService = pessoaLogService;
+            _logService = pessoaLogService;
         }
 
         public async Task<AddPessoaResponseDto> AddAsync(AddPessoaRequestDto requestDto)
@@ -29,6 +29,8 @@ namespace Ecommerce.Application.Services
                                     email: requestDto.Email,
                                     senha: requestDto.Senha,
                                     tipo: requestDto.Tipo));
+
+            _logService.MakeCreateLog(pessoa);
 
             AddPessoaResponseDto responseDto = new(guid: pessoa.Guid,
                                                    celular:pessoa.Celular,
@@ -66,7 +68,7 @@ namespace Ecommerce.Application.Services
             
             if (pessoa == null) return responseDto;
 
-            _pessoaLogService.AddObject(pessoa);
+            _logService.AddObject(pessoa);
 
             pessoa.ChangeObject(celular: requestDto.Celular,
                                 email: requestDto.Email,
@@ -75,7 +77,7 @@ namespace Ecommerce.Application.Services
 
             if (_pessoaRepository.UpdateAsync(pessoa).Result.Changes == 0) return responseDto;
 
-            _pessoaLogService.MakeLog();
+            _logService.MakeUpdateLog();
 
             responseDto.FillObject(guid: pessoa.Guid,
                                    celular: pessoa.Celular,
